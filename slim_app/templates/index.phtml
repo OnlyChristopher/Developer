@@ -1,0 +1,90 @@
+<?php
+     $json_data = file_get_contents(__DIR__ .'/employees.json');
+     $json = json_decode($json_data,true);
+
+    $variable= $_GET['correo'];
+
+if ($variable){
+    foreach ($json as $employees) {
+            $results = array_filter($json, function($employees) {
+                return $employees['email'] == $_GET['correo'];
+            });
+        }
+    $json = $results;
+    }
+
+
+?>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Slim 3</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link href='//fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+        <style>
+            body {
+                margin: 50px 0 0 0;
+                padding: 0;
+                width: 100%;
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+                text-align: center;
+                color: #0b3b6e;
+                font-size: 18px;
+            }
+
+            h1 {
+                color: #719e40;
+                letter-spacing: -3px;
+                font-family: 'Lato', sans-serif;
+                font-size: 100px;
+                font-weight: 200;
+                margin-bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+    <div class="container">
+        <div class="row">
+            <h1>Employees</h1>
+            <h2>Parse Json</h2>
+        </div>
+
+        <div class="row">
+            <form method="get" action="http://192.168.0.210/slim_app/public/" class="form-inline">
+                <label >Busqueda</label>
+                <div class="form-group">
+                    <input type="text" name="correo" id="correo" class="form-control"  placeholder="Email">
+                </div>
+                <button type="submit" class="btn btn-default">Buscar</button>
+            </form>
+        </div>
+
+        <div class="row">
+            <table class="table table-hover" >
+                <thead>
+                <th>name</th>
+                <th>email</th>
+                <th>position</th>
+                <th>salary</th>
+                </thead>
+                <tbody>
+                <?php foreach ($json as $employees) {;?>
+
+                    <tr>
+                        <td><?php echo $employees[name]?></td>
+                        <td><?php echo $employees[email]?></td>
+                        <td><?php echo $employees[position]?></td>
+                        <td><?php echo $employees[salary]?></td>
+
+                    </tr>
+                <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+
+    </body>
+</html>
